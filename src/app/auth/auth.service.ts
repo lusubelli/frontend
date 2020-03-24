@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 interface AccessToken {
   access_token: string;
@@ -12,7 +13,7 @@ export class AuthService {
   }
 
   signin(login: any) {
-    return this.http.post<AccessToken>('/backend/api/v1/signin', login);
+    return this.http.post<AccessToken>(`${environment.apiUrl}/api/v1/signin`, login);
   }
 
   isAuthenticated(): boolean {
@@ -23,12 +24,12 @@ export class AuthService {
   account() {
     const token = localStorage.getItem('xsrfToken');
     const headers = new HttpHeaders({'x-xsrf-token':token});
-    return this.http.get('/backend/api/v1/secured/account', { headers, withCredentials: true });
+    return this.http.get(`${environment.apiUrl}/api/v1/secured/account`, { headers, withCredentials: true });
   }
 
   signout() {
     const token = localStorage.getItem('xsrfToken');
     const headers = new HttpHeaders({'x-xsrf-token':token});
-    return this.http.get('/backend/api/v1/secured/signout', { headers, withCredentials: true });
+    return this.http.get(`${environment.apiUrl}/api/v1/secured/signout`, { headers, withCredentials: true });
   }
 }
