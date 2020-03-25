@@ -1,12 +1,18 @@
-# base image
-FROM nginx:1.16.0-alpine
+FROM node:13.3.0 AS build
 
-# copy artifact build from the 'build environment'
-COPY dist/frontend /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+RUN npm install -g yarn
 
-# expose port 80
+COPY .npmrc package.json yarn.lock ./
+RUN yarn install
+
+ENV PATH="./node_modules/.bin:$PATH"
+
+COPY . ./
+RUN ng build --prod
+
+FROM nginx
+
 EXPOSE 80
 
-# run nginx
-CMD ["nginx", "-g", "daemon off;"]
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build dist/frontend /usr/share/nginx/html
