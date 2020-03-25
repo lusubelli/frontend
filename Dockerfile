@@ -1,18 +1,8 @@
-FROM node:13.3.0 AS build
+# base image
+FROM nginx:1.16.0-alpine
 
-RUN npm install -g yarn
+WORKDIR /usr/share/nginx/html
 
-COPY package.json ./
-RUN yarn install
+COPY nginx.conf /etc/nginx/nginx.conf
 
-ENV PATH="./node_modules/.bin:$PATH"
-
-COPY . ./
-RUN ng build --prod
-
-FROM nginx
-
-EXPOSE 80
-
-COPY default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build dist/frontend /usr/share/nginx/html
+COPY ./dist/ . 
