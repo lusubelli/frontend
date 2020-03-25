@@ -1,6 +1,6 @@
 FROM node:13.3.0 AS build
 
-RUN npm install -g
+RUN npm install -g yarn
 
 COPY package.json ./
 RUN yarn install
