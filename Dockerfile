@@ -1,11 +1,11 @@
-# base image
-FROM nginx:1.16.0-alpine
+### STAGE 1: Build ###
+FROM node:12.7-alpine AS build
+WORKDIR /usr/src/app
+COPY package.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-RUN rm -rf /usr/share/nginx/html/*
-COPY nginx.conf /etc/nginx/nginx.conf
-
-COPY dist/frontend /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+### STAGE 2: Run ###
+FROM nginx:1.17.1-alpine
+COPY --from=build /usr/src/app/dist/frontend /usr/share/nginx/html
