@@ -1,8 +1,8 @@
 FROM node:13.3.0 AS build
 
-RUN npm install -g yarn
+RUN npm install -g
 
-COPY .npmrc package.json yarn.lock ./
+COPY package.json ./
 RUN yarn install
 
 ENV PATH="./node_modules/.bin:$PATH"
