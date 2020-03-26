@@ -1,6 +1,6 @@
 {
-  "/backend": {
-    "target": "http://127.0.0.1:8181",
+  "/api/*": {
+    "target": "http://127.0.0.1:8181/backend",
     "secure": false,
     "logLevel": "debug"
   }
