@@ -18,7 +18,7 @@
         <configuration>
           <nodeVersion>v10.18.1</nodeVersion>
           <npmVersion>6.13.4</npmVersion>
-          <workingDirectory>../build</workingDirectory>
+          <workingDirectory>build</workingDirectory>
         </configuration>
         <executions>
           <execution>
